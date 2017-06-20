@@ -14,6 +14,10 @@
     git:
       repo: https://github.com/VundleVim/Vundle.vim.git
       dest: ~/.vim/bundle/Vundle.vim
+  - name: Download powerline-nerd font
+    command: /bin/true
+  - name: Install powerline-nerd font
+    command: /bin/true
   - name: Copy tmux config
     copy:
       src: "{{ item }}"
