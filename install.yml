@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Install Git
+    apt:
+      name: git
+      state: present
+  - name: Install Vim
+    apt:
+      name: vim
+      state: present
+  - name: Install Vundle
+    git:
+      repo: https://github.com/VundleVim/Vundle.vim.git
+      dest: ~/.vim/bundle/Vundle.vim
+  - name: Copy tmux config
+    copy:
+      src: "{{ item }}"
+      dest: "~/{{ item }}"
+    with_items:
+    - .tmux.conf
+    - .tmux-line.conf
+  - name: Copy vimrc
+    copy:
+      src: .vimrc
+      dest: ~/.vimrc
+  - name: Install Vim plugins
+    command: vim +PluginInstall +qall # Can't provide changed state
