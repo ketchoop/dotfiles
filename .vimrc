@@ -5,8 +5,7 @@ filetype plugin indent on
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-
+Plugin 'VundleVim/Vundle.vim' 
 call vundle#end()
 "=======================================================
 
@@ -40,6 +39,7 @@ imap <C-@> <C-Space>
 
 "===============Plugins==========
 Plugin 'bling/vim-airline'
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'eagletmt/ghcmod-vim'
@@ -97,15 +97,13 @@ if has('gui_running')
   call togglebg#map("<F5>")
 else
     "=======Solarized(option)======
-    "let g:solarized_termcolors=256
-    "let g:solarized_termtrans=0
-    "let g:solarized_bold=0
-    "let g:solarized_contrast="high"
-    "let g:solarized_visibility="high"
-    "set background=light
-    "colorscheme solarized
-    let g:rehash256=1
-    colorscheme molokai
+    let g:solarized_termcolors=256
+    let g:solarized_termtrans=0
+    let g:solarized_bold=0
+    let g:solarized_contrast="high"
+    let g:solarized_visibility="high"
+    set background=light
+    colorscheme solarized
 endif
 
 
