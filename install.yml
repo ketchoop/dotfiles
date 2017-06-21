@@ -3,10 +3,12 @@
   connection: local
   tasks:
   - name: Install Git
+    become: yes
     apt:
       name: git
       state: present
   - name: Install Vim
+    become: yes
     apt:
       name: vim
       state: present
