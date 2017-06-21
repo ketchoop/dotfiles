@@ -21,10 +21,14 @@
     git:
       repo: https://github.com/VundleVim/Vundle.vim.git
       dest: ~/.vim/bundle/Vundle.vim
+  - name: Make fonts directory
+    file:
+      path: ~/.local/share/fonts
+      state: directory
   - name: Download powerline-nerd font
-    command: /bin/true
-  - name: Install powerline-nerd font
-    command: /bin/true
+    command: curl -fLo "~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20derivative%20Powerline%20Nerd%20Font%20Complete.ttf
+    args:
+      creates: ~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf
   - name: Copy tmux config
     copy:
       src: "{{ item }}"
