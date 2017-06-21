@@ -12,6 +12,11 @@
     apt:
       name: vim
       state: present
+  - name: Install gVim
+    become: yes
+    apt:
+      name: vim-gnome # Yeah, GNOME
+      state: present
   - name: Install Tmux
     become: yes
     apt:
