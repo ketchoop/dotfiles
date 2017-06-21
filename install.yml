@@ -12,6 +12,11 @@
     apt:
       name: vim
       state: present
+  - name: Install Tmux
+    become: yes
+    apt:
+      name: tmux
+      state: present
   - name: Install Vundle
     git:
       repo: https://github.com/VundleVim/Vundle.vim.git
