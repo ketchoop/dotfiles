@@ -1,32 +1,20 @@
 ---
 - hosts: localhost
   connection: local
+  vars:
+    packages:
+    - git
+    - cmake
+    - vim
+    - vim-gnome
+    - tmux
   tasks:
-  - name: Install Git
+  - name: "Install packages"
     become: yes
     package:
-      name: git
+      name: "{{ item }}"
       state: present
-  - name: Install Cmake
-    become: yes
-    package:
-      name: cmake
-      state: present
-  - name: Install Vim
-    become: yes
-    package:
-      name: vim
-      state: present
-  - name: Install gVim
-    become: yes
-    package:
-      name: vim-gnome # Yeah, GNOME
-      state: present
-  - name: Install Tmux
-    become: yes
-    package:
-      name: tmux
-      state: present
+    with_items: "{{ packages }}"
   - name: Install Vundle
     git:
       repo: https://github.com/VundleVim/Vundle.vim.git
