@@ -4,7 +4,10 @@
   vars:
     packages:
     - git
+    - curl
     - cmake
+    - python-pip
+    - python3-pip
     - vim
     - vim-gnome
     - tmux
@@ -24,7 +27,7 @@
       path: ~/.local/share/fonts
       state: directory
   - name: Download powerline-nerd font
-    command: curl -fLo "~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20derivative%20Powerline%20Nerd%20Font%20Complete.ttf
+    command: curl -fLo "~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf
     args:
       creates: ~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf
   - name: Copy gitconfig
