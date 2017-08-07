@@ -4,10 +4,14 @@
   vars:
     packages:
     - git
+<<<<<<< HEAD
     - curl
     - cmake
     - python-pip
     - python3-pip
+=======
+    - cmake
+>>>>>>> 29e56ebdf8097ab131922fbdfad0440819a1325d
     - vim
     - vim-gnome
     - tmux
