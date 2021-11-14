@@ -3,48 +3,143 @@
   connection: local
   vars:
     packages:
+# === Sys packages ===
     - git
     - curl
     - cmake
-    - python-pip
-    - python3-pip
-    - cmake
+#    - pip
     - vim
-    - vim-gnome
     - tmux
+    - npm
+# === Other packages ===
+    - podman
+    - kubectl
+    - helm
+    - kubectx
+    - flora
+    - zsh-autosuggestions
+# === Desktop utilities ===
+    - telegram-desktop
+    - slack
+    - spotify
+    - visual-studio-code
   tasks:
   - name: "Install packages"
-    become: yes
+    become: no
     package:
       name: "{{ item }}"
       state: present
     with_items: "{{ packages }}"
+
   - name: Install Vundle
     git:
       repo: https://github.com/VundleVim/Vundle.vim.git
       dest: ~/.vim/bundle/Vundle.vim
+
+  - name: Download oh-my-zsh
+    uri:
+      url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+      dest: /tmp/install_oh_my_zsh.sh
+      creates: "~/.oh-my-zsh/"
+    when: ansible_os_family == "Darwin"
+  
+  - name: Install oh-my-zsh
+    command: install_oh_my_zsh.sh
+    args:
+      chdir: /tmp
+      creates: "~/.oh-my-zsh/"
+    when: ansible_os_family == "Darwin"
+
+  - name: Copy .zshrc
+    copy:
+      src: "{{ playbook_dir }}/.zshrc"
+      dest: ~/.zshrc
+      mode: 0644
+    when: ansible_os_family == "Darwin"
+
+  - name: Copy ssh config
+    copy:
+      src: "{{ playbook_dir }}/ssh_config"
+      dest: "~/.ssh"
+      mode: 0644
+
+# Autoformatters
+  - name: Install JSON/YAML formater
+    npm:
+      name: eslint
+      global: yes
+  - name: Install autopep8
+    pip:
+      name: autopep8
+
+# Fonts
   - name: Make fonts directory
     file:
       path: ~/.local/share/fonts
       state: directory
-  - name: Download powerline-nerd font
-    command: curl -fLo "~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf
-    args:
+      mode: 0744
+    when: ansible_os_family == "Debian"
+
+  - name: Download powerline-nerd Ubuntu font
+    uri:
+      url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf"
+      dest: "~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf"
       creates: ~/.local/share/fonts/Ubuntu Mono derivative Powerline Nerd Font Complete.ttf
+    when: ansible_os_family == "Debian"
+
+  - name: Download powerline-nerd Fira font
+    uri:
+      url: "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf"
+      dest: "~/Library/Fonts/Fira Mono Regular Nerd Font Complete.otf"
+      creates: "~/Library/Fonts/Fira Mono Regular Nerd Font Complete.otf"
+    when: ansible_os_family == "Darwin"
+  
+  - name: Copy VSCode settings
+    copy:
+      src: "vscode/{{ item }}"
+      dest: "{{ vscode_settings_dir }}/{{ item }}"
+      mode: 0644
+    loop:
+    - keybindings.json 
+    - settings.json
+
+  - name: Get VSCode extensions list
+    set_fact:
+      vscode_extensions: "{{ lookup('file', playbook_dir + '/vscode_extensions.list') | split('\n') }}"
+  
+  - name: Install VSCode extensions
+    command: code --install-extension {{ item }}
+    args:
+      creates: "~/.vscode/extensions/{{ item }}*"
+    loop: "{{ vscode_extensions }}"
+
   - name: Copy gitconfig
     copy:
-      src: .gitconfig
+      src: "{{ playbook_dir }}/.gitconfig"
       dest: ~/.gitconfig
+      mode: 0644
+
+  - name: Copy iTerm2 profiles
+    copy:
+      src: "{{ playbook_dir }}/Profiles.json"
+      dest: "{{ iterm2_profiles_dir }}/Profiles.json"
+      mode: 0644
+    when: ansible_os_family == "Darwin"
+
   - name: Copy tmux config
     copy:
-      src: "{{ item }}"
+      src: "{{ playbook_dir }}/{{ item }}"
       dest: "~/{{ item }}"
+      mode: 0644
     with_items:
     - .tmux.conf
     - .tmux-line.conf
+
   - name: Copy vimrc
     copy:
-      src: .vimrc
+      src: "{{ playbook_dir }}/.vimrc"
       dest: ~/.vimrc
+      mode: 0644
+
   - name: Install Vim plugins
     command: vim +PluginInstall +qall # Can't provide changed state

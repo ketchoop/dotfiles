@@ -1,0 +1,20 @@
+[user]
+    name = Alexey Boyko
+    email = ket4yiit@gmail.com
+
+[includeIf "gitdir:~/work/"]
+    path = ~/work/.gitconfig
+
+[aliases]
+    cm = commit -m
+    ca = commit -a
+    cam = commit -am
+    bc = rev-parse --abbrev-ref HEAD
+    b = branch
+    bd = branch -d
+    co = checkout
+    cob = checkout -b
+    po = push origin
+    pom = push origin master
+    pob = !git push origin $(git bc)
+

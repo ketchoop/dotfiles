@@ -1,0 +1,4 @@
+---
+# MacOS dirs
+vscode_settings_dir: "~/Library/Application Support/Code/User"
+iterm2_profiles_dir: "~/Library/Application Support/iTerm2/DynamicProfiles"

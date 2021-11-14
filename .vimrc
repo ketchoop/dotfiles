@@ -9,8 +9,7 @@ Plugin 'VundleVim/Vundle.vim'
 call vundle#end()
 "=======================================================
 
-autocmd Filetype javascript setlocal softtabstop=2 shiftwidth=2
-autocmd Filetype yaml setlocal softtabstop=2 shiftwidth=2
+autocmd Filetype yaml setlocal softtabstop=2 shiftwidth=2 expandtab smartindent
 autocmd Filetype go setlocal tabstop=4 shiftwidth=4 expandtab smartindent
 
 "Indentation settings
@@ -19,6 +18,8 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
+
+set backspace=indent,eol,start
 
 set nu
 
@@ -42,11 +43,8 @@ Plugin 'bling/vim-airline'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
-Plugin 'eagletmt/ghcmod-vim'
 Plugin 'shougo/vimproc.vim'
-Plugin 'eagletmt/neco-ghc'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'mattn/emmet-vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
@@ -56,9 +54,11 @@ Plugin 'mhinz/vim-startify'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'tomasr/molokai'
-Plugin 'derekwyatt/vim-scala'
 Plugin 'fatih/vim-go'
-Plugin 'valloric/youcompleteme'
+"Plugin 'valloric/youcompleteme'
+Plugin 'hashivim/vim-terraform'
+Plugin 'pearofducks/ansible-vim'
+Plugin 'Chiel92/vim-autoformat'
 
 "===============Airline==========
 set laststatus=2
@@ -71,41 +71,19 @@ let g:ycm_server_python_interpreter = '/usr/bin/python'
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 let g:ycm_filetype_blacklist = { 'python': 1 }
 
-"==============GHCMod============
-"Autocheck on writing
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-
-"==============Neco-GHC==========
-" Disable haskell-vim omnifunc
-let g:haskellmode_completion_ghc = 0
-let g:necoghc_enable_detailed_browse = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-"============Emmet==============
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-let g:user_emmet_leader_key='<C-l>'
-
-
 "============Color schemes=======
 syntax enable
+call togglebg#map("<F5>")
 
 if has('gui_running')
   colorscheme solarized
   set background=light
   set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 14
-  call togglebg#map("<F5>")
 else
     "=======Solarized(option)======
-    let g:solarized_termcolors=256
-    let g:solarized_termtrans=0
-    let g:solarized_bold=0
-    let g:solarized_contrast="high"
-    let g:solarized_visibility="high"
-    set background=light
+    set background=dark
     colorscheme solarized
 endif
-
 
 "===========Nerd tree===========
 map <C-n> :NERDTreeToggle<CR>

@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Sync settings files
+    copy:
+      src: "{{ item }}"
+      dest: "{{ playbook_dir }}"
+      mode: 0644
+    loop:
+    - "~/.vimrc"
+    - "~/.zshrc"
+    - "~/.gitconfig"
+    - "{{ iterm2_profiles_dir }}/Profiles.json"
+
+
+  - name: Sync VSCode settings files
+    copy:
+      src: "{{ item }}"
+      dest: "{{ playbook_dir }}"
+      mode: 0644
+    loop:
+    - "{{ vscode_settings_dir }}/keybindings.json"
+    - "{{ vscode_settings_dir }}/settings.json"
+  
+  - name: Sync VSCode extensions list
+    command: "code --list-extensions"
+    register: vscode_extensions_list
+    when: True
+
+  - name: Write VSCode extensions list to file
+    copy:
+      content: "{{ vscode_extensions_list.stdout }}"
+      dest: "{{ playbook_dir }}/vscode_extensions.list"
+      mode: 0644
